@@ -1,11 +1,12 @@
 import React from "react";
+import UserInfor from "./Userinfor";
 class Mycomponent extends React.Component {
   // JSX
+
   render() {
     return (
       <div>
-        my first component
-        {Math.random()}
+        <UserInfor />
       </div>
     );
   }
