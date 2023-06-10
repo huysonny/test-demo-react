@@ -7,20 +7,89 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.app-container{
-  .header-container{
-    .navbar-nav{
+
+@media (min-width: 1500px) {
+
+  .container,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl {
+    max-width: 1800px !important;
+  }
+}
+
+.app-container {
+  .header-container {
+    .btn-login {
+      border-radius: 5px;
+      margin-right: 15px;
+      padding: 0 15px;
+      border: 1px solid #535353;
+      height: 40px;
+    }
+
+    .btn-signup {
+      border-radius: 5px;
+      padding: 0 15px;
+      background: #303030;
+      color: white;
+      height: 40px;
+
+      &:hover {
+        background: black;
+      }
+    }
+
+    .navbar {
+      padding-top: 20px;
       z-index: 10;
-      opacity: 0.6;
-      .nav-link{
-        &.active{
-            color:#00bfff;
+      background-color: rgba(0, 0, 0, 0) !important;
+
+      .nav-link {
+        &.active {
+          color: #00bfff;
+        }
+      }
+    }
+  }
+
+  .homepage-container {
+    .homepage-content {
+      padding: 100px;
+      position: relative;
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+
+      .title-1 {
+        font-size: 45px;
+        font-weight: 600;
+      }
+
+      .title-2 {
+        font-size: 25px;
+      }
+
+      .title-3 {
+        button {
+          border-radius: 5px;
+          height: 40px;
+          padding: 0 15px;
+          background: #303030;
+          color: white;
+
+          &:hover {
+            background: black;
+          }
         }
       }
     }
   }
 }
-video{
+
+video {
   position: fixed;
   bottom: 0;
   width: 100vw;
