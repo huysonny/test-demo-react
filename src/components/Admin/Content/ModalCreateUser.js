@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-
+import { toast } from "react-toastify";
 import { FcPlus } from "react-icons/fc";
 
 const ModalCreateUser = (props) => {
@@ -32,14 +32,27 @@ const ModalCreateUser = (props) => {
     }
   };
 
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
   const handSubmitCreateUser = async () => {
-    // let data = {
-    //   email: email,
-    //   password: passWord,
-    //   username: username,
-    //   role: role,
-    //   userImage: image,
-    // };
+    // validate
+    const isValidEmail = validateEmail(email);
+    if (!isValidEmail) {
+      toast.error("Invalid email");
+      return;
+    }
+
+    if (!passWord) {
+      toast.error("Invalid passWord");
+      return;
+    }
+
     const data = new FormData();
     data.append("email", email);
     data.append("password", passWord);
@@ -51,14 +64,17 @@ const ModalCreateUser = (props) => {
       data
     );
     console.log(">>> check res : ", res);
+    if (res.data && res.data.EC === 0) {
+      toast.success(res.data.EM);
+      handleClose();
+    }
+    if (res.data && res.data.EC !== 0) {
+      toast.error(res.data.EM);
+    }
   };
 
   return (
     <>
-      {/* <Button variant="primary" onClick={handleShow}>
-        Launch demo modal
-      </Button> */}
-
       <Modal
         show={show}
         onHide={handleClose}
