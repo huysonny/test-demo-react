@@ -51,7 +51,7 @@ const Register = (props) => {
         <span> Already have an account?</span>
         <button onClick={() => navigate("/login")}>Log in</button>
       </div>
-      <div className="title col-4 mx-auto">Hỏi Dân IT &amp; Eric</div>
+      <div className="title col-4 mx-auto">Nguyễn Thanh Huy</div>
       <div className="welcome col-4 mx-auto">Start your journey?</div>
       <div className="content-form col-4 mx-auto">
         <div className="form-group">
