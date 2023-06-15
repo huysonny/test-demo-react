@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-import store from "./redux/store";
+import { store, persistor } from "./redux/store";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import User from "./components/User/User";
@@ -13,17 +13,20 @@ import ManageUser from "./components/Admin/Content/ManageUser";
 import DashBoard from "./components/Admin/Content/DashBoard";
 import Login from "./components/Auth/Login";
 import Layout from "./Layout";
-
+import "nprogress/nprogress.css";
+import { PersistGate } from "redux-persist/integration/react";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <Provider store={store}>
-    {/* <React.StrictMode> */}
-    <BrowserRouter>
-      <Layout />
-    </BrowserRouter>
+    <PersistGate loading={null} persistor={persistor}>
+      {/* <React.StrictMode> */}
+      <BrowserRouter>
+        <Layout />
+      </BrowserRouter>
 
-    {/* </React.StrictMode> */}
+      {/* </React.StrictMode> */}
+    </PersistGate>
   </Provider>
 );
 
