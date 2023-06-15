@@ -11,7 +11,6 @@ const Header = () => {
   };
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const account = useSelector((state) => state.user.account);
-  console.log("account", account, " isAuthenticated", isAuthenticated);
 
   return (
     <Navbar bg="light" expand="lg">
