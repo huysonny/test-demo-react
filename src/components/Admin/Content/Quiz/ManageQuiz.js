@@ -5,6 +5,10 @@ import { postCreateNewQuiz } from "../../../services/apiServices";
 import { toast } from "react-toastify";
 import TableQuiz from "./TableQuiz";
 import Accordion from "react-bootstrap/Accordion";
+
+import { getAllQuizForAdmin } from "../../../services/apiServices";
+import { useEffect } from "react";
+
 const options = [
   { value: "EASY", label: "EASY" },
   { value: "MEDIUM", label: "MEDIUM" },
@@ -14,6 +18,7 @@ const ManageQuiz = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [type, setType] = useState("EASY");
+
   const [image, setImage] = useState(null);
   const [initialFileName, setInitialFileName] = useState("");
 
@@ -46,7 +51,6 @@ const ManageQuiz = () => {
       toast.error(res.EM);
     }
   };
-
   return (
     <div className="quiz-container">
       <Accordion defaultActiveKey="0">

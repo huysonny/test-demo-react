@@ -15,6 +15,8 @@ import Login from "./components/Auth/Login";
 import Layout from "./Layout";
 import "nprogress/nprogress.css";
 import { PersistGate } from "redux-persist/integration/react";
+import "react-perfect-scrollbar/dist/css/styles.css";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
