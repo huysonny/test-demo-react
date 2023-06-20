@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Select from "react-select";
-import "./Questions.scss";
+// import "./QuizQa.scss";
 import { BsFillPatchPlusFill } from "react-icons/bs";
 import { BsPatchMinusFill } from "react-icons/bs";
 import { AiFillPlusSquare, AiOutlineMinusCircle } from "react-icons/ai";
@@ -9,12 +9,13 @@ import { v4 as uuidv4 } from "uuid";
 import _ from "lodash";
 import Lightbox from "react-awesome-lightbox";
 import { useEffect } from "react";
-import { getAllQuizForAdmin } from "../services/apiServices";
-import { postCreateNewQuestionForQuiz } from "../services/apiServices";
-import { postCreateNewAnswerForQuestion } from "../services/apiServices";
+import { getAllQuizForAdmin } from "../../../services/apiServices";
+import { postCreateNewQuestionForQuiz } from "../../../services/apiServices";
+import { postCreateNewAnswerForQuestion } from "../../../services/apiServices";
 import { toast } from "react-toastify";
+import "./QuizQA.scss";
 
-const Questions = (props) => {
+const QuizQA = (props) => {
   // const options = [
   //   { value: "chocolate", label: "Chocolate" },
   //   { value: "strawberry", label: "Strawberry" },
@@ -229,8 +230,6 @@ const Questions = (props) => {
 
   return (
     <div className="questions-container">
-      <div className="title">Manage Questions</div>
-      <hr />
       <div className="add-new-questions">
         <div className="col-6 form-group">
           <label className="mb-2">Select Quiz:</label>
@@ -389,4 +388,4 @@ const Questions = (props) => {
     </div>
   );
 };
-export default Questions;
+export default QuizQA;
