@@ -7,6 +7,7 @@ import Question from "./Question";
 import { useState } from "react";
 import { postSubmitQuiz } from "../services/apiServices";
 import ModalResult from "./ModalResult";
+import RightContent from "./Content/RightContent";
 
 const DetalQuiz = (props) => {
   const params = useParams();
@@ -164,7 +165,9 @@ const DetalQuiz = (props) => {
           </button>
         </div>
       </div>
-      <div className="right-content">count down</div>
+      <div className="right-content">
+        <RightContent dataQuiz={dataQuiz} />
+      </div>
       <ModalResult
         show={isShowModalReulst}
         setShow={setIsShowModalReulst}
