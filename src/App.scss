@@ -9,6 +9,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.languages {
+  .dropdown-toggle::after {
+    display: none !important;
+  }
+}
+
+
 @media (min-width: 1500px) {
 
   .container,
