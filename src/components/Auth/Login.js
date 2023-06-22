@@ -54,7 +54,6 @@ const Login = (props) => {
     }
   };
   const handleKeyDown = (event) => {
-    console.log("event key");
     if (event && event.key === "Enter") {
       handleLogin();
     }
