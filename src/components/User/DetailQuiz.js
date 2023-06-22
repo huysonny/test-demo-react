@@ -67,7 +67,7 @@ const DetalQuiz = (props) => {
             item.answers.isSelected = false;
             answers.push(item.answers);
           });
-
+          answers = _.orderBy(answers, ["id"], ["asc"]);
           return { questionId: key, answers, questionDescription, image };
         })
         .value();
@@ -84,19 +84,6 @@ const DetalQuiz = (props) => {
   };
 
   const handeleFinishQuiz = async () => {
-    //   {
-    //     "quizId": 1,
-    //     "answers": [
-    //         {
-    //             "questionId": 1,
-    //             "userAnswerId": [3]
-    //         },
-    //         {
-    //             "questionId": 2,
-    //             "userAnswerId": [6]
-    //         }
-    //     ]
-    // }
     console.log(">>> check data befor submit : ", dataQuiz);
     let payload = {
       quizId: +quizId,
