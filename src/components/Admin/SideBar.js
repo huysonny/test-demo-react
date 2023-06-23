@@ -26,9 +26,11 @@ import { BsFacebook } from "react-icons/bs";
 import "./SideBar.scss";
 
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const SideBar = (props) => {
   const { image, collapsed, toggled, handleToggleSidebar } = props;
+  const account = useSelector((state) => state.user.account);
   const navigate = useNavigate();
   return (
     <>
@@ -65,22 +67,24 @@ const SideBar = (props) => {
             </MenuItem>
           </Menu>
           <Menu iconShape="circle">
-            <SubMenu icon={<FaGem />} title="Features">
-              <MenuItem>
-                Quản Lý Users
-                <Link to="/admins/manage-users" />
-              </MenuItem>
-              <MenuItem>
-                {" "}
-                Quản Lý Bài Quiz
-                <Link to="/admins/manage-quizzes" />
-              </MenuItem>
-              <MenuItem>
-                {" "}
-                Quản Lý Câu Hỏi
-                <Link to={"/admins/manage-questions"} />
-              </MenuItem>
-            </SubMenu>
+            {account && account.role === "ADMIN" && (
+              <SubMenu icon={<FaGem />} title="Features">
+                <MenuItem>
+                  Quản Lý Users
+                  <Link to="/admins/manage-users" />
+                </MenuItem>
+                <MenuItem>
+                  {" "}
+                  Quản Lý Bài Quiz
+                  <Link to="/admins/manage-quizzes" />
+                </MenuItem>
+                <MenuItem>
+                  {" "}
+                  Quản Lý Câu Hỏi
+                  <Link to={"/admins/manage-questions"} />
+                </MenuItem>
+              </SubMenu>
+            )}
           </Menu>
         </SidebarContent>
 
