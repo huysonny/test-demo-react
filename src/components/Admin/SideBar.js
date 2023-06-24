@@ -27,11 +27,13 @@ import "./SideBar.scss";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const SideBar = (props) => {
   const { image, collapsed, toggled, handleToggleSidebar } = props;
   const account = useSelector((state) => state.user.account);
   const navigate = useNavigate();
+  const { t } = useTranslation();
   return (
     <>
       <ProSidebar

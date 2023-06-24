@@ -7,6 +7,39 @@
         "login1":"Doing Quiz Now"
         
       }
-    }
+    },
+    "sideBar":{
+        "Home":"Home",
+        "Users":"Users",
+        "Admin":"Admin",
+        "Auth":{
+          "Login":"Log in",
+          "SignUp":"Sign up",
+          "logged":"Settings",
+          "LogOut":"Log out",
+          "Profile":"Profile"
+        }
+    },
+    "Login1":{
+      "text1":"Don't have account yet?",
+      "SignUp1":"Sign up",
+      "Hello":"Hello,who's this?",
+      "Password":"Password",
+      "ForgotP":"Forgot Password",
+      "Loginto":"Login to",
+      "Goto":"Go to Homepage"
+  },
+  "Register":{
+    "text2":"Already have an account?",
+    "Login2":"Log in",
+    "title1":"Start your journey?",
+    "username":"Username",
+    "create":"Create my free account"
+  },
+  "DetailQ":{
+    "User":"User",
+    "Quiz":"Quiz"
+  }
+    
   }
   

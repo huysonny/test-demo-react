@@ -13,10 +13,16 @@ const Language = () => {
         id="basic-nav-dropdown2"
         className="languages"
       >
-        <NavDropdown.Item onClick={() => handleChangeLanguage("en")}>
+        <NavDropdown.Item
+          onClick={() => handleChangeLanguage("en")}
+          className="item"
+        >
           English
         </NavDropdown.Item>
-        <NavDropdown.Item onClick={() => handleChangeLanguage("vi")}>
+        <NavDropdown.Item
+          onClick={() => handleChangeLanguage("vi")}
+          className="item"
+        >
           Việt Nam
         </NavDropdown.Item>
       </NavDropdown>

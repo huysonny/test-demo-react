@@ -50,7 +50,23 @@ const DashBoard = (props) => {
     console.log(">>> check res : ", res);
   };
 
-  console.log(">>> dataOverView:  ", dataOverView);
+  const renderCustomAxisTick = (props) => {
+    const { x, y, payload } = props;
+    return (
+      <g transform={`translate(${x},${y})`}>
+        <text
+          x={0}
+          y={0}
+          dy={16}
+          textAnchor="middle"
+          fill="#666"
+          transform="rotate(0)"
+        >
+          {payload.value}
+        </text>
+      </g>
+    );
+  };
   return (
     <div className="dashboard-Container">
       <div className="title"> Analytics dashboard</div>
@@ -111,7 +127,7 @@ const DashBoard = (props) => {
           <ResponsiveContainer width={"95%"} height={"100%"}>
             <BarChart data={dataChart}>
               {/* <CartesianGrid strokeDasharray="3 3" /> */}
-              <XAxis dataKey="name" />
+              <XAxis dataKey="name" tick={renderCustomAxisTick} />
               {/* <YAxis /> */}
               <Tooltip />
               <Legend />

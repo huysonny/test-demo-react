@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../services/apiServices";
 import { toast } from "react-toastify";
 import { doLogOut } from "../../redux/action/userAction";
+import { FaReact } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 import Language from "./Language";
 const Header = () => {
   const navigate = useNavigate();
@@ -17,6 +19,7 @@ const Header = () => {
   const account = useSelector((state) => state.user.account);
   const dispatch = useDispatch();
   console.log("account", account);
+  const { t } = useTranslation();
   const handleLogOut = async () => {
     let res = await logout(account.email, account.refresh_token);
     if (res && res.EC === 0) {
@@ -32,19 +35,20 @@ const Header = () => {
       <Container>
         {/* <Navbar.Brand href="#home">Nguyễn Thanh Huy</Navbar.Brand> */}
         <NavLink to="/" className="navbar-brand">
+          <FaReact className="brand-icon" />
           Nguyễn Thanh Huy
         </NavLink>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <NavLink to="/" className="nav-link">
-              Home
+              {t("sideBar.Home")}
             </NavLink>
             <NavLink to="/users" className="nav-link">
-              Users
+              {t("sideBar.Users")}
             </NavLink>
             <NavLink to="/admins" className="nav-link">
-              Admin
+              {t("sideBar.Admin")}
             </NavLink>
             {/* <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/users">Users</Nav.Link>
@@ -54,21 +58,27 @@ const Header = () => {
             {isAuthenticated === false ? (
               <>
                 <button className="btn-login" onClick={() => handleLogin()}>
-                  Log in
+                  {t("sideBar.Auth.Login")}
                 </button>
                 <button
                   className="btn-signup"
                   onClick={() => navigate("/register")}
                 >
-                  Sign up
+                  {t("sideBar.Auth.SignUp")}
                 </button>
               </>
             ) : (
-              <NavDropdown title="Settings" id="basic-nav-dropdown">
+              <NavDropdown
+                title={t("sideBar.Auth.logged")}
+                id="basic-nav-dropdown"
+              >
                 <NavDropdown.Item onClick={() => handleLogOut()}>
-                  Log out
+                  {t("sideBar.Auth.LogOut")}
                 </NavDropdown.Item>
-                <NavDropdown.Item>Profile</NavDropdown.Item>
+                <NavDropdown.Item>
+                  {" "}
+                  {t("sideBar.Auth.Profile")}
+                </NavDropdown.Item>
               </NavDropdown>
             )}
             <Language />

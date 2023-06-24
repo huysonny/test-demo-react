@@ -29,6 +29,24 @@ body {
 
 .app-container {
   .header-container {
+    .navbar-brand {
+      .brand-icon {
+        font-size: 25px;
+        color: #00bfff;
+        animation: spin 5s infinite linear;
+      }
+
+      @keyframes spin {
+        from {
+          transform: scale(1) rotate(0deg);
+        }
+
+        to {
+          transform: scale(1) rotate(360deg);
+        }
+      }
+    }
+
     .btn-login {
       border-radius: 5px;
       margin-right: 15px;

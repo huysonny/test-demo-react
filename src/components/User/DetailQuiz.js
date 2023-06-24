@@ -8,12 +8,14 @@ import { useState } from "react";
 import { postSubmitQuiz } from "../services/apiServices";
 import ModalResult from "./ModalResult";
 import RightContent from "./Content/RightContent";
-
+import { Breadcrumb } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 const DetalQuiz = (props) => {
   const params = useParams();
   const quizId = params.id;
   const location = useLocation();
-
+  const { t } = useTranslation();
   const [dataQuiz, setDataQuiz] = useState([]);
   const [index, setIndex] = useState(0);
 
@@ -121,50 +123,63 @@ const DetalQuiz = (props) => {
   };
 
   return (
-    <div className="detail-quiz-container">
-      <div className="left-content">
-        <div className="title">
-          Quiz {quizId}: {location?.state?.quizTitle}
+    <>
+      <Breadcrumb className="quiz-detai-new-header">
+        <NavLink to="/" className="breadcrumb-item">
+          <span className="text-1"> {t("sideBar.Home")}</span>
+        </NavLink>
+        <NavLink to="/users" className="breadcrumb-item">
+          <span className="text-1"> {t("DetailQ.User")}</span>
+        </NavLink>
+        <Breadcrumb.Item active>
+          <span className="text-1">{t("DetailQ.Quiz")}</span>
+        </Breadcrumb.Item>
+      </Breadcrumb>
+      <div className="detail-quiz-container">
+        <div className="left-content">
+          <div className="title">
+            Quiz {quizId}: {location?.state?.quizTitle}
+          </div>
+          <hr />
+          <div className="q-body">
+            <img />
+          </div>
+          <div className="q-content">
+            <Question
+              index={index}
+              handleCheckbox={handleCheckbox}
+              data={dataQuiz && dataQuiz.length > 0 ? dataQuiz[index] : []}
+            />
+          </div>
+          <div className="footer">
+            <button className="btn btn-secondary" onClick={() => handlePrev()}>
+              Prev
+            </button>
+            <button className="btn btn-primary" onClick={() => handleNext()}>
+              Next
+            </button>
+            <button
+              className="btn btn-warning"
+              onClick={() => handeleFinishQuiz()}
+            >
+              Finish
+            </button>
+          </div>
         </div>
-        <hr />
-        <div className="q-body">
-          <img />
-        </div>
-        <div className="q-content">
-          <Question
-            index={index}
-            handleCheckbox={handleCheckbox}
-            data={dataQuiz && dataQuiz.length > 0 ? dataQuiz[index] : []}
+        <div className="right-content">
+          <RightContent
+            dataQuiz={dataQuiz}
+            handeleFinishQuiz={handeleFinishQuiz}
+            setIndex={setIndex}
           />
         </div>
-        <div className="footer">
-          <button className="btn btn-secondary" onClick={() => handlePrev()}>
-            Prev
-          </button>
-          <button className="btn btn-primary" onClick={() => handleNext()}>
-            Next
-          </button>
-          <button
-            className="btn btn-warning"
-            onClick={() => handeleFinishQuiz()}
-          >
-            Finish
-          </button>
-        </div>
-      </div>
-      <div className="right-content">
-        <RightContent
-          dataQuiz={dataQuiz}
-          handeleFinishQuiz={handeleFinishQuiz}
-          setIndex={setIndex}
+        <ModalResult
+          show={isShowModalReulst}
+          setShow={setIsShowModalReulst}
+          dataModalResult={dataModalResult}
         />
       </div>
-      <ModalResult
-        show={isShowModalReulst}
-        setShow={setIsShowModalReulst}
-        dataModalResult={dataModalResult}
-      />
-    </div>
+    </>
   );
 };
 export default DetalQuiz;

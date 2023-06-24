@@ -7,5 +7,37 @@
         "login1":"Thực hiện bài kiểm tra ngay bây giờ"
         
       }
+    },
+    "sideBar":{
+      "Home":"Trang Chủ",
+      "Users":"Người Dùng",
+      "Admin":"Quản Trị",
+      "Auth":{
+        "Login":"Đăng Nhập",
+        "SignUp":"Đăng Ký",
+        "logged":"Cài Đặt",
+        "LogOut":"Đăng Xuất",
+        "Profile":"Trang Cá Nhân"
+      }
+    },
+    "Login1":{
+        "text1":"Bạn Đã Có Tài Khoản Chưa",
+        "SignUp1":"Đăng Ký",
+        "Hello":"Xin Chào, Bạn Là Ai? ",
+        "Password":"Mật Khẩu",
+        "ForgotP":"Quên Mật Khẩu",
+        "Loginto":"Đăng Nhập Vào",
+        "Goto":"Quay Lại Trang Chủ"
+    },
+    "Register":{
+      "text2":"Bạn Có Sẵn Sàng Để Có Tài Khoản",
+      "Login2":"Đăng Nhập",
+      "title1":"Bắt Đầu Cuộc Hành Trình?",
+      "username":"Tên Người Dùng",
+      "create":"Tạo Tài Khoản Miễn Phí"
+    },
+    "DetailQ":{
+      "User":"Người dùng",
+      "Quiz":"Câu Hỏi"
     }
   }
