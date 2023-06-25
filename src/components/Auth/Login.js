@@ -38,7 +38,7 @@ const Login = (props) => {
     setIsLoading(true);
     //submit apis
     let data = await postLogin(email, passWord);
-    console.log(data);
+    console.log("check data login", data);
     if (data && data.EC === 0) {
       // dispatch({
       //   type: "FETCH_USER_LOGIN_SUCCESS",

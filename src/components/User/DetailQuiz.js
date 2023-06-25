@@ -12,42 +12,22 @@ import { Breadcrumb } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 const DetalQuiz = (props) => {
-  const params = useParams();
-  const quizId = params.id;
-  const location = useLocation();
   const { t } = useTranslation();
+  const params = useParams();
+  const location = useLocation();
+  const quizId = params.id;
   const [dataQuiz, setDataQuiz] = useState([]);
   const [index, setIndex] = useState(0);
+  const [isSubmitQuiz, setIsSubmitQuiz] = useState(false);
+  const [isShowAnswer, setIsShowAnswer] = useState(false);
 
-  const [isShowModalReulst, setIsShowModalReulst] = useState(false);
+  const [isShowModalResult, setIsShowModalResult] = useState(false);
   const [dataModalResult, setDataModalResult] = useState({});
 
-  const handleCheckbox = (answersId, questionId) => {
-    let dataQuizClone = _.cloneDeep(dataQuiz);
-    let question = dataQuizClone.find(
-      (item) => +item.questionId === +questionId
-    );
-    if (question && question.answers) {
-      let b = question.answers.map((item) => {
-        if (item.id === +answersId) {
-          item.isSelected = !item.isSelected;
-        }
-        return item;
-      });
-      // console.log(b);
-      question.answers = b;
-    }
-    let index = dataQuizClone.findIndex(
-      (item) => +item.questionId === +questionId
-    );
-    if (index > -1) {
-      dataQuizClone[index] = question;
-      setDataQuiz(dataQuizClone);
-    }
-  };
   useEffect(() => {
     fetchQuestions();
   }, [quizId]);
+
   const fetchQuestions = async () => {
     let res = await getDataQuiz(quizId);
     if (res && res.EC === 0) {
@@ -60,17 +40,23 @@ const DetalQuiz = (props) => {
           let answers = [];
           let questionDescription,
             image = null;
-
           value.forEach((item, index) => {
             if (index === 0) {
               questionDescription = item.description;
               image = item.image;
             }
             item.answers.isSelected = false;
+            item.answers.isCorrect = false;
             answers.push(item.answers);
           });
           answers = _.orderBy(answers, ["id"], ["asc"]);
-          return { questionId: key, answers, questionDescription, image };
+
+          return {
+            questionId: key,
+            answers,
+            questionDescription,
+            image,
+          };
         })
         .value();
       setDataQuiz(data);
@@ -81,12 +67,34 @@ const DetalQuiz = (props) => {
     if (index - 1 < 0) return;
     setIndex(index - 1);
   };
+
   const handleNext = () => {
     if (dataQuiz && dataQuiz.length > index + 1) setIndex(index + 1);
   };
 
-  const handeleFinishQuiz = async () => {
-    console.log(">>> check data befor submit : ", dataQuiz);
+  const handleCheckbox = (answerId, questionId) => {
+    let dataQuizClone = _.cloneDeep(dataQuiz); //react hook doesn't merge state
+    let question = dataQuizClone.find(
+      (item) => +item.questionId === +questionId
+    );
+    if (question && question.answers) {
+      question.answers = question.answers.map((item) => {
+        if (+item.id === +answerId) {
+          item.isSelected = !item.isSelected;
+        }
+        return item;
+      });
+    }
+    let index = dataQuizClone.findIndex(
+      (item) => +item.questionId === +questionId
+    );
+    if (index > -1) {
+      dataQuizClone[index] = question;
+      setDataQuiz(dataQuizClone);
+    }
+  };
+
+  const handleFinishQuiz = async () => {
     let payload = {
       quizId: +quizId,
       answers: [],
@@ -96,6 +104,7 @@ const DetalQuiz = (props) => {
       dataQuiz.forEach((question) => {
         let questionId = question.questionId;
         let userAnswerId = [];
+
         question.answers.forEach((a) => {
           if (a.isSelected === true) {
             userAnswerId.push(a.id);
@@ -106,41 +115,70 @@ const DetalQuiz = (props) => {
           userAnswerId: userAnswerId,
         });
       });
+
       payload.answers = answers;
+      //submit api
       let res = await postSubmitQuiz(payload);
-      console.log("check res : ", res);
       if (res && res.EC === 0) {
-        setIsShowModalReulst(true);
+        setIsSubmitQuiz(true);
         setDataModalResult({
           countCorrect: res.DT.countCorrect,
           countTotal: res.DT.countTotal,
           quizData: res.DT.quizData,
         });
+        setIsShowModalResult(true);
+
+        //update DataQuiz with correct answer
+        if (res.DT && res.DT.quizData) {
+          let dataQuizClone = _.cloneDeep(dataQuiz);
+          let a = res.DT.quizData;
+          for (let q of a) {
+            for (let i = 0; i < dataQuizClone.length; i++) {
+              if (+q.questionId === +dataQuizClone[i].questionId) {
+                //update answer
+                let newAnswers = [];
+                for (let j = 0; j < dataQuizClone[i].answers.length; j++) {
+                  let s = q.systemAnswers.find(
+                    (item) => +item.id === +dataQuizClone[i].answers[j].id
+                  );
+                  if (s) {
+                    dataQuizClone[i].answers[j].isCorrect = true;
+                  }
+                  newAnswers.push(dataQuizClone[i].answers[j]);
+                }
+                dataQuizClone[i].answers = newAnswers;
+              }
+            }
+          }
+          setDataQuiz(dataQuizClone);
+        }
       } else {
-        alert("something wrongs......");
+        alert("somthing wrongs....");
       }
     }
   };
 
+  const handleShowAnswer = () => {
+    if (!isSubmitQuiz) return;
+    setIsShowAnswer(true);
+  };
   return (
     <>
       <Breadcrumb className="quiz-detai-new-header">
         <NavLink to="/" className="breadcrumb-item">
-          <span className="text-1"> {t("sideBar.Home")}</span>
+          {t("sideBar.Home")}
         </NavLink>
         <NavLink to="/users" className="breadcrumb-item">
-          <span className="text-1"> {t("DetailQ.User")}</span>
+          {t("DetailQ.User")}
         </NavLink>
-        <Breadcrumb.Item active>
-          <span className="text-1">{t("DetailQ.Quiz")}</span>
-        </Breadcrumb.Item>
+        <Breadcrumb.Item active>{t("DetailQ.Quiz")}</Breadcrumb.Item>
       </Breadcrumb>
       <div className="detail-quiz-container">
         <div className="left-content">
           <div className="title">
             Quiz {quizId}: {location?.state?.quizTitle}
           </div>
-          <hr />
+          <hr className="m-0" />
           <div className="q-body">
             <img />
           </div>
@@ -148,6 +186,8 @@ const DetalQuiz = (props) => {
             <Question
               index={index}
               handleCheckbox={handleCheckbox}
+              isShowAnswer={isShowAnswer}
+              isSubmitQuiz={isSubmitQuiz}
               data={dataQuiz && dataQuiz.length > 0 ? dataQuiz[index] : []}
             />
           </div>
@@ -155,12 +195,14 @@ const DetalQuiz = (props) => {
             <button className="btn btn-secondary" onClick={() => handlePrev()}>
               Prev
             </button>
-            <button className="btn btn-primary" onClick={() => handleNext()}>
+            <button onClick={() => handleNext()} className="btn btn-primary">
               Next
             </button>
+
             <button
+              disabled={isSubmitQuiz}
+              onClick={() => handleFinishQuiz()}
               className="btn btn-warning"
-              onClick={() => handeleFinishQuiz()}
             >
               Finish
             </button>
@@ -169,17 +211,19 @@ const DetalQuiz = (props) => {
         <div className="right-content">
           <RightContent
             dataQuiz={dataQuiz}
-            handeleFinishQuiz={handeleFinishQuiz}
+            handleFinishQuiz={handleFinishQuiz}
             setIndex={setIndex}
           />
         </div>
         <ModalResult
-          show={isShowModalReulst}
-          setShow={setIsShowModalReulst}
+          show={isShowModalResult}
+          setShow={setIsShowModalResult}
           dataModalResult={dataModalResult}
+          handleShowAnswer={handleShowAnswer}
         />
       </div>
     </>
   );
 };
+
 export default DetalQuiz;

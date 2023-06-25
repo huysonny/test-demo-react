@@ -1,5 +1,7 @@
-import { INCREMENT, DECREMENT } from "../action/counterAction";
-import { FETCH_USER_LOGIN_SUCCESS } from "../action/userAction";
+import {
+  FETCH_USER_LOGIN_SUCCESS,
+  UPDATE_PROFILE_SUCCESS,
+} from "../action/userAction";
 import { USER_LOGOUT_SUCCESS } from "../action/userAction";
 const INITIAL_STATE = {
   acount: {
@@ -9,6 +11,7 @@ const INITIAL_STATE = {
     image: "",
     email: "",
     role: "",
+    password: "",
   },
   isAuthenticated: false,
 };
@@ -25,6 +28,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
           image: action?.payload?.DT?.image,
           email: action?.payload?.DT?.email,
           role: action?.payload?.DT?.role,
+          password: action?.payload?.DT?.password,
         },
         isAuthenticated: true,
       };
@@ -39,9 +43,11 @@ const userReducer = (state = INITIAL_STATE, action) => {
           image: "",
           email: "",
           role: "",
+          password: "",
         },
         isAuthenticated: false,
       };
+
     default:
       return state;
   }
